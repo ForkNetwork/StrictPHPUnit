@@ -2,7 +2,7 @@
 
 [![Latest version](https://img.shields.io/packagist/v/forknetwork/strict-phpunit.svg?style=flat-square&colorB=007EC6)](https://packagist.org/packages/forknetwork/strict-phpunit)
 [![Downloads](https://img.shields.io/packagist/dt/forknetwork/strict-phpunit.svg?style=flat-square&colorB=007EC6)](https://packagist.org/packages/forknetwork/strict-phpunit)
-[![Travis build status](https://img.shields.io/travis/forknetwork/strict-phpunit/master.svg?label=travis&style=flat-square)](https://travis-ci.org/ForkNetwork/StrictPHPUnit)
+[![Travis build status](https://img.shields.io/travis/ForkNetwork/StrictPHPUnit/master.svg?label=travis&style=flat-square)](https://travis-ci.org/ForkNetwork/StrictPHPUnit)
 
 A simple PHPUnit extension that disallows unexpected method calls.
 
@@ -25,7 +25,6 @@ class YourTest extends TestCase
 
 **After**
 ```php
-// After
 use ForkNetwork\StrictPHPUnit\Framework\StrictTestCase;
 
 class YourTest extends StrictTestCase
