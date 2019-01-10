@@ -1,0 +1,14 @@
+<?php declare(strict_types = 1);
+
+namespace ForkNetwork\StrictPHPUnit\Standards\ForkNetwork\Tests\PHPUnit;
+
+use PHPUnit\Framework\Test;
+use ForkNetwork\StrictPHPUnit\Framework\StrictTestCase;
+
+/**
+ * Validates only the extends class is fixed and the implemented classes are not altered.
+ */
+class FooTest extends StrictTestCase implements Test
+{
+    // Contents doesn't matter.
+}

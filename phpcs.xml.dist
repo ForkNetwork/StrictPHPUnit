@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<ruleset name="ForkNetwork">
+    <description>The coding standard for this library.</description>
+
+    <!-- Default arguments for the CodeSniffer. -->
+    <file>src</file>
+    <file>tests</file>
+
+    <!-- Don't validate tests files with the .inc and .inc.fixed extension. These are specific test files that validate only one sniff at the time. -->
+    <exclude-pattern>*/Tests/*.inc</exclude-pattern>
+    <exclude-pattern>*/Tests/*.inc.fixed</exclude-pattern>
+
+    <!-- Import the default rulesets. -->
+    <rule ref="src/Standards/ForkNetwork/ruleset.xml"/>
+
+    <!-- Ignore the StrictTestCase itself from the validation. -->
+    <rule ref="ForkNetwork.PHPUnit.StrictUnitTest">
+        <exclude-pattern>src/Framework/StrictTestCase.php</exclude-pattern>
+    </rule>
+
+    <!-- Use the default Symfony coding standard as a base. -->
+    <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony/ruleset.xml">
+        <!-- Ignore missing class docblocks. -->
+        <exclude name="Symfony.Commenting.ClassComment"/>
+
+        <!-- Ignore empty lines before a return annotation in docblocks. -->
+        <exclude name="Symfony.Commenting.Annotations"/>
+
+        <!-- Ignore license requirements. -->
+        <exclude name="Symfony.Commenting.License"/>
+
+        <!-- Ignore forcing Yoda statements. -->
+        <exclude name="Symfony.ControlStructure.YodaConditions"/>
+
+        <!-- Ignore empty lines in closure. -->
+        <exclude name="PEAR.Functions.FunctionCallSignature.EmptyLine"/>
+
+        <!-- Ignore spacing must line up with other parameter names and types in function declaration. -->
+        <exclude name="Symfony.Commenting.FunctionComment.SpacingAfterParamName"/>
+        <exclude name="Symfony.Commenting.FunctionComment.SpacingAfterParamType"/>
+        <exclude name="Symfony.Commenting.FunctionComment.ParamCommentAlignment"/>
+        <exclude name="Symfony.Commenting.FunctionComment.ParamCommentAlignmentExceeded"/>
+
+        <!-- Ignore prefixing all abstract classes with "Abstract". Follow the example set by PHPUnit in this instance. -->
+        <exclude name="Symfony.NamingConventions.ValidClassName.InvalidAbstractName"/>
+    </rule>
+
+    <!-- Changes whitespace around concatenation operator to one space. -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Add sorted use statements. -->
+    <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+</ruleset>
