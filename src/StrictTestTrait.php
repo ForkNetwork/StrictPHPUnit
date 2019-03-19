@@ -1,11 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace ForkNetwork\StrictPHPUnit\Framework;
+namespace ForkNetwork\StrictPHPUnit;
 
 use PHPUnit\Framework\MockObject\MockBuilder;
-use PHPUnit\Framework\TestCase;
 
-abstract class StrictTestCase extends TestCase
+trait StrictTestTrait
 {
     /**
      * Returns a builder object to create mock objects using a fluent interface.
