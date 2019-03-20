@@ -76,7 +76,7 @@ By default it will sniff all classes that extend from `TestCase` (PHPUnit). You 
 </rule>
 ```
 
-Please note that this sniff only ensures the trait and use statement is added. It does not sort or pay attention to the rest of your code style. Take a look at [SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses](https://github.com/slevomat/coding-standard/blob/master/README.md#slevomatcodingstandardnamespacesalphabeticallysorteduses-) for example if you want your use statements sorted alphabetically.
+Please note that this sniff only ensures the trait and use statements are added. It does not sort or pay attention to the rest of your code style.
 
 **Known limitations**  
 The current implementation of the sniff doesn't support the following situations:
