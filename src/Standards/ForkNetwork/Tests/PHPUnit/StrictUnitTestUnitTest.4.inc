@@ -4,10 +4,9 @@ namespace ForkNetwork\StrictPHPUnit\Standards\ForkNetwork\Tests\PHPUnit;
 
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
-use ForkNetwork\StrictPHPUnit\StrictTestTrait;
 
 /**
- * Validates trait is imported and doesn't conflict with already existing traits.
+ * Validates use statement is added even though the trait is already included.
  */
 class FooTest extends TestCase
 {

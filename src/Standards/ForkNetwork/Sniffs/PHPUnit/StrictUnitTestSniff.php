@@ -19,6 +19,15 @@ class StrictUnitTestSniff implements Sniff
     public $supportedTokenizers = array('PHP');
 
     /**
+     * Sniff class whenever it extends from one of the following classes.
+     *
+     * @var array
+     */
+    public $extendedClasses = array(
+        'TestCase',
+    );
+
+    /**
      * Registers the tokens that this sniff wants to listen for.
      *
      * @return array
@@ -65,26 +74,39 @@ class StrictUnitTestSniff implements Sniff
      */
     public function process(File $phpcsFile, $stackPtr)
     {
-        // Check that the current class extends "TestCase".
+        // Only sniff classes that extend from certain classes.
         $extendedClass = $phpcsFile->findExtendedClassName($stackPtr);
-        if ($extendedClass !== 'TestCase') {
+        if (!\in_array($extendedClass, $this->extendedClasses)) {
             return;
         }
 
-        // Check that the class "PHPUnit\Framework\TestCase" is used.
+        // Check that the class "ForkNetwork\StrictPHPUnit\StrictTestCase" is used.
         $useStatementPosition = $phpcsFile->findPrevious(T_USE, $stackPtr);
         while ($useStatementPosition !== false) {
             $nextSemicolon = $phpcsFile->findNext(T_SEMICOLON, $useStatementPosition);
             $useStatement = $phpcsFile->getTokensAsString($useStatementPosition, $nextSemicolon - $useStatementPosition);
 
-            if (\strpos($useStatement, 'PHPUnit\Framework\TestCase') !== false) {
+            if (\strpos($useStatement, 'ForkNetwork\StrictPHPUnit\StrictTestTrait') !== false) {
                 break; // Found the use statement!
             }
             $useStatementPosition = $phpcsFile->findPrevious(T_USE, $useStatementPosition - 1);
         }
 
-        // No use statement for the class can be found.
-        if ($useStatementPosition === false) {
+        // Check that the trait is used.
+        $useTraitStatementPosition = $phpcsFile->findNext(T_USE, $stackPtr);
+        while ($useTraitStatementPosition !== false) {
+            $nextSemicolon = $phpcsFile->findNext(T_SEMICOLON, $useTraitStatementPosition);
+            $useStatement = $phpcsFile->getTokensAsString($useTraitStatementPosition, $nextSemicolon - $useTraitStatementPosition);
+
+            if ($useStatement === 'use StrictTestTrait') {
+                break; // Found the use statement!
+            }
+
+            $useTraitStatementPosition = $phpcsFile->findNext(T_USE, $useTraitStatementPosition + 1);
+        }
+
+        // Check that both statements are present.
+        if ($useStatementPosition !== false && $useTraitStatementPosition !== false) {
             return;
         }
 
@@ -92,14 +114,48 @@ class StrictUnitTestSniff implements Sniff
         if ($fix) {
             $phpcsFile->fixer->beginChangeset();
 
-            // Fix the use statement.
-            $phpcsFile->fixer->replaceToken($useStatementPosition + 2, 'ForkNetwork\StrictPHPUnit');
-            $phpcsFile->fixer->replaceToken($useStatementPosition + 6, 'StrictTestCase');
+            // Ensure the use statement exists.
+            if ($useStatementPosition === false) {
+                $this->addUseStatement($phpcsFile, $stackPtr);
+            }
 
-            // Fix the extends class reference.
-            $phpcsFile->fixer->replaceToken($stackPtr + 6, 'StrictTestCase');
+            // Ensure the trait statement exist.
+            if ($useTraitStatementPosition === false) {
+                $this->addTraitStatement($phpcsFile, $stackPtr);
+            }
 
             $phpcsFile->fixer->endChangeset();
         }
+    }
+
+    /**
+     * Adds the use statement to the bottom of the use statements list. We assume that there is always one use statement
+     * because the class needs to extend from TestCase (or another class provided by the settings).
+     *
+     * @param File $phpcsFile
+     * @param int $stackPtr
+     */
+    private function addUseStatement(File $phpcsFile, int $stackPtr)
+    {
+        $lastUseStatementLocation = $phpcsFile->findPrevious(T_USE, $stackPtr);
+        $endOfLineLocation = $phpcsFile->findEndOfStatement($lastUseStatementLocation);
+
+        $phpcsFile->fixer->addNewline($endOfLineLocation);
+        $phpcsFile->fixer->addContent($endOfLineLocation, 'use ForkNetwork\StrictPHPUnit\StrictTestTrait;');
+    }
+
+    /**
+     * Adds the use trait statement on a new line right after the opening curly braces of the class. We assume one
+     * indentation of four spaces. This can be fixed with other sniffs if you have different settings.
+     *
+     * @param File $phpcsFile
+     * @param int $stackPtr
+     */
+    private function addTraitStatement(File $phpcsFile, int $stackPtr)
+    {
+        $classOpeningPosition = $phpcsFile->findNext(T_OPEN_CURLY_BRACKET, $stackPtr);
+
+        $phpcsFile->fixer->addNewline($classOpeningPosition);
+        $phpcsFile->fixer->addContent($classOpeningPosition, '    use StrictTestTrait;');
     }
 }

@@ -13,11 +13,6 @@
     <!-- Import the default rulesets. -->
     <rule ref="src/Standards/ForkNetwork/ruleset.xml"/>
 
-    <!-- Ignore the StrictTestCase itself from the validation. -->
-    <rule ref="ForkNetwork.PHPUnit.StrictUnitTest">
-        <exclude-pattern>src/Framework/StrictTestCase.php</exclude-pattern>
-    </rule>
-
     <!-- Use the default Symfony coding standard as a base. -->
     <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony/ruleset.xml">
         <!-- Ignore missing class docblocks. -->

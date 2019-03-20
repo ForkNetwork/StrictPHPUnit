@@ -2,13 +2,15 @@
 
 namespace ForkNetwork\StrictPHPUnit\Tests\Framework;
 
-use ForkNetwork\StrictPHPUnit\Framework\StrictTestCase;
+use ForkNetwork\StrictPHPUnit\StrictTestTrait;
 use ForkNetwork\StrictPHPUnit\Tests\Framework\Fixtures\GenericClass;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 
-class StrictTestCaseTest extends StrictTestCase
+class StrictTestCaseTest extends TestCase
 {
+    use StrictTestTrait;
+
     /**
      * @var GenericClass
      */
@@ -27,7 +29,8 @@ class StrictTestCaseTest extends StrictTestCase
      */
     public function testItShouldAcceptNormalExpectations(): void
     {
-        $testCaseMock = $this->getMockBuilder(TestCase::class)->getMock();
+        $testCaseMock = $this->getMockBuilder(TestCase::class)
+            ->getMock();
 
         $testCaseMock
             ->expects($this->once())
@@ -44,7 +47,8 @@ class StrictTestCaseTest extends StrictTestCase
      */
     public function testItShouldFailOnUnexpectedMethodCalls(): void
     {
-        $testCaseMock = $this->getMockBuilder(TestCase::class)->getMock();
+        $testCaseMock = $this->getMockBuilder(TestCase::class)
+            ->getMock();
 
         $this->expectException(ExpectationFailedException::class);
 
@@ -68,8 +72,6 @@ class StrictTestCaseTest extends StrictTestCase
     /**
      * Assert that the createMock method also disallows unexpected method calls.
      * (i.e. it is using the getMockBuilder method)
-     *
-     * @throws \ReflectionException
      */
     public function testItShouldFailForCreateMockMethod(): void
     {

@@ -2,13 +2,15 @@
 
 namespace ForkNetwork\StrictPHPUnit\Standards\ForkNetwork\Tests\PHPUnit;
 
-use ForkNetwork\StrictPHPUnit\Framework\StrictTestCase;
+use PHPUnit\Framework\TestCase;
+use ForkNetwork\StrictPHPUnit\StrictTestTrait;
 
 /**
- * Validates the use statement is fixed to the StrictTestCase FQCN.
- * Validates the extended class reference is altered to the StrictTestCase.
+ * Validates the trait class is imported.
+ * Validates the trait class is used.
  */
-class FooTest extends StrictTestCase
+class FooTest extends TestCase
 {
+    use StrictTestTrait;
     // Contents doesn't matter.
 }
