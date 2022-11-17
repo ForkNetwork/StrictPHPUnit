@@ -3,14 +3,13 @@ language: php
 sudo: false
 
 php:
-    - 7.1
-    - 7.2
     - 7.3
+    - 7.4
 
 matrix:
     fast_finish: true
     include:
-        - php: 7.1
+        - php: 7.3
           env: COMPOSER_FLAGS="--prefer-lowest"
 
 cache:
@@ -18,7 +17,7 @@ cache:
         - $HOME/.composer/cache/files
 
 before_script:
-    - composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
+    - composer update --prefer-dist --no-interaction phpunit/phpunit:^7.0 --with-dependencies $COMPOSER_FLAGS
 
 script:
     - vendor/bin/phpcs

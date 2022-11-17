@@ -82,3 +82,4 @@ Please note that this sniff only ensures the trait and use statements are added.
 The current implementation of the sniff doesn't support the following situations:
  * Comma separated use trait statements (e.g. `use StrictUnitTrait, FooTrait;`)
  * FQCN or partial use trait statements (e.g. `use Traits\StrictUnitTest;`)
+ * Running the sniff unit tests in PHPUnit 8 or higher is not supported.
