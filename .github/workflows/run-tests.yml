@@ -1,0 +1,25 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  phpunit:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Install PHPUnit 7.5
+        run: composer update -n phpunit/phpunit:^7.5 --with-dependencies
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit
