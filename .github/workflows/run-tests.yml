@@ -16,7 +16,10 @@ jobs:
           coverage: none
 
       - name: Run composer install
-        run: composer install -n --prefer-dist phpunit/phpunit:^7.0 --with-dependencies
+        run: composer install -n --prefer-dist
+
+      - name: Install PHPUnit 7.5
+        run: composer update -n phpunit/phpunit:^7.5 --with-dependencies
 
       - name: Run tests
         run: ./vendor/bin/phpunit
