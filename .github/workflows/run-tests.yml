@@ -3,8 +3,8 @@ name: Run tests
 on: [push]
 
 jobs:
-  phpunit:
-    name: Run tests
+  phpunit-8:
+    name: Run PHPUnit 8.x
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,8 +18,29 @@ jobs:
       - name: Run composer install
         run: composer install -n --prefer-dist
 
-      - name: Install PHPUnit 7.5
-        run: composer update -n phpunit/phpunit:^7.5 --with-dependencies
+      - name: Install PHPUnit 8.x
+        run: composer update -n phpunit/phpunit:^8.0 --with-dependencies
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit
+
+  phpunit-9:
+    name: Run PHPUnit 9.x
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Install PHPUnit 9.x
+        run: composer update -n phpunit/phpunit:^9.0 --with-dependencies
 
       - name: Run tests
         run: ./vendor/bin/phpunit
