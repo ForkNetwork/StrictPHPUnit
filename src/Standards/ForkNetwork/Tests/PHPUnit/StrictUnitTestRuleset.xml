@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="StrictUnitTestSniff">
+    <description>Custom ruleset to test the StrictUnitTestSniff with a path.</description>
+
+    <!-- Rule to test (relative from this file, because it is including something in this file). -->
+    <rule ref="../../Sniffs/PHPUnit/StrictUnitTestSniff.php"/>
+</ruleset>

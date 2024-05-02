@@ -41,12 +41,25 @@ abstract class AbstractSniffTest extends AbstractSniffUnitTest
      * Sets the directories where the standards and tests can be found. The sniff codes array also needs to be set for
      * the errors to work properly.
      *
-     * @throws RuntimeException
+     * @param string|null $name
+     * @param array $data
+     * @param string $dataName
      * @throws \ReflectionException
+     */
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        $this->setUpCodesnifferVariables();
+
+        parent::__construct($name, $data, $dataName);
+    }
+
+    /**
+     * Sets the custom ruleset if there is one.
+     *
+     * @throws RuntimeException
      */
     protected function setUp(): void
     {
-        $this->setUpCodesnifferVariables();
         $this->setUpCustomRuleset();
 
         parent::setUp();
@@ -101,10 +114,6 @@ abstract class AbstractSniffTest extends AbstractSniffUnitTest
         $GLOBALS['PHP_CODESNIFFER_TEST_DIRS'][$class] = $standardsDirectory . '/Tests/';
         $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES'] = [];
         $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES'] = [];
-
-//        if (defined('PHP_CODESNIFFER_VERBOSITY') === false) {
-//            define('PHP_CODESNIFFER_VERBOSITY', 0);
-//        }
     }
 
     /**

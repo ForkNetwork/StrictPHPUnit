@@ -4,7 +4,7 @@ namespace ForkNetwork\StrictPHPUnit\Tests\Framework;
 
 use ForkNetwork\StrictPHPUnit\StrictTestTrait;
 use ForkNetwork\StrictPHPUnit\Tests\Framework\Fixtures\GenericClass;
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception as PHPUnitException;
 use PHPUnit\Framework\TestCase;
 
 class StrictTestCaseTest extends TestCase
@@ -50,7 +50,7 @@ class StrictTestCaseTest extends TestCase
         $testCaseMock = $this->getMockBuilder(TestCase::class)
             ->getMock();
 
-        $this->expectException(ExpectationFailedException::class);
+        $this->expectException(PHPUnitException::class);
 
         $this->genericClass->callsOneMethod($testCaseMock);
     }
@@ -77,7 +77,7 @@ class StrictTestCaseTest extends TestCase
     {
         $testCaseMock = $this->createMock(TestCase::class);
 
-        $this->expectException(ExpectationFailedException::class);
+        $this->expectException(PHPUnitException::class);
 
         $this->genericClass->callsOneMethod($testCaseMock);
     }
